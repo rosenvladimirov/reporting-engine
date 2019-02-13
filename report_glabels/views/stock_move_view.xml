@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_label_stock_move_operations" model="ir.ui.view">
+        <field name="name">stock.move.operations.label.form</field>
+        <field name="model">stock.move</field>
+        <field name="priority">1000</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/footer[@class='oe_edit_only']" position="inside">
+                    <button class="oe_highlight" name="action_lots_glabel_print" type="object" string="Lots Labels"/>
+                <!--
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button" name="action_lots_glabel_print" type="object"
+                        icon="fa-tags"
+                        string="Lots Labels"/>
+                </div>
+                -->
+            </xpath>
+        </field>
+    </record>
+</odoo>

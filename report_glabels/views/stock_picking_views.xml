@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_glabel_form" model="ir.ui.view">
+        <field name="name">stock.picking.glabel.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="has_tracking" invisible="1"/>
+                <button class="oe_stat_button" name="action_package_glabel_print" type="object"
+                    icon="fa-tags"
+                    string="Pack Labels"
+                    attrs="{'invisible': [('has_packages', '=', False)]}"/>
+                <button class="oe_stat_button" name="action_lots_glabel_print" type="object"
+                    icon="fa-tags"
+                    string="Lot Labels"
+                    attrs="{'invisible': [('has_tracking', '=', False)]}"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>
