@@ -85,7 +85,10 @@ class ReportController(report.ReportController):
                 report = request.env["ir.actions.report"]._get_report_from_name(
                     reportname
                 )
-                filename = f"{report.name}.csv"
+                if context.get("file_name"):
+                    filename = context.get("file_name")
+                else:
+                    filename = f"{report.name}.csv"
 
                 if docids:
                     ids = [int(x) for x in docids.split(",")]
