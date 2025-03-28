@@ -53,6 +53,7 @@ class ReportController(report.ReportController):
 
     @route()
     def report_download(self, data, context=None, token=None):
+        data_context = False
         requestcontent = json.loads(data)
         url, report_type = requestcontent[0], requestcontent[1]
         reportname = ""
@@ -85,8 +86,8 @@ class ReportController(report.ReportController):
                 report = request.env["ir.actions.report"]._get_report_from_name(
                     reportname
                 )
-                if context.get("file_name"):
-                    filename = context.get("file_name")
+                if data_context and isinstance(data_context, dict) and data_context.get("file_name"):
+                    filename = data_context.get("file_name")
                 else:
                     filename = f"{report.name}.csv"
 
