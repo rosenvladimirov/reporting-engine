@@ -40,8 +40,8 @@ async function triggerDownload(action, {onClose}, env) {
 }
 registry
     .category("ir.actions.report handlers")
-    .add("xml_handler", async function (action, options, env) {
-        if (action.report_type === "qweb-zip") {
+    .add("zip_handler", async function (action, options, env) {
+        if (action.report_type === "zip") {
             await triggerDownload(action, options, env);
             return true;
         }

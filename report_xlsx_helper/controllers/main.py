@@ -48,4 +48,4 @@ class ReportController(ReportController):
                 ("Content-Disposition", content_disposition(report_file + ".xlsx")),
             ]
             return request.make_response(xlsx, headers=xlsxhttpheaders)
-        return super().report_routes(reportname, docids, converter, **data)
+        return super().report_routes(reportname, docids=docids, converter=converter, **data)

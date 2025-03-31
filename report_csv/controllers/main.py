@@ -49,7 +49,7 @@ class ReportController(report.ReportController):
                 ("Content-Length", len(csv)),
             ]
             return request.make_response(csv, headers=csvhttpheaders)
-        return super().report_routes(reportname, docids, converter, **data)
+        return super().report_routes(reportname, docids=docids, converter=converter, **data)
 
     @route()
     def report_download(self, data, context=None, token=None):

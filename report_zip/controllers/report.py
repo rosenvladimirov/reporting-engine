@@ -23,9 +23,9 @@ _logger = logging.getLogger(__name__)
 
 class ReportController(report.ReportController):
     @route()
-    def report_routes(self, report_name, docids=None, converter=None, **data):
+    def report_routes(self, reportname, docids=None, converter=None, **data):
         if converter == "zip":
-            zip_report = request.env["ir.actions.report"]._get_report_from_name(report_name)
+            zip_report = request.env["ir.actions.report"]._get_report_from_name(reportname)
             context = dict(request.env.context)
             if docids:
                 docids = list(map(lambda x: int(x), docids.split(",")))
@@ -40,7 +40,7 @@ class ReportController(report.ReportController):
                     del data["context"]["lang"]
                 context.update(data["context"])
             zip_file = zip_report.with_context(**context)._render_zip(
-                report_name, docids, data=data
+                reportname, docids, data=data
             )[0]
             zip_http_headers = [
                 ("Content-Type", "application/zip"),
@@ -48,7 +48,7 @@ class ReportController(report.ReportController):
             ]
             return request.make_response(zip_file, headers=zip_http_headers)
         return super(ReportController, self).report_routes(
-            report_name, docids, converter, **data
+            reportname, docids=docids, converter=converter, **data
         )
 
     @route()

@@ -8,12 +8,13 @@ class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
 
     report_type = fields.Selection(
-        selection_add=[("qweb-zip", "Zipped report")], ondelete={"qweb-zip": "set default"}
+        selection_add=[("zip", "Zipped report")], ondelete={"zip": "set default"}
     )
-    report_to_zip_ids = fields.Many2many("ir.actions.report", string="Reports to zip")
+    report_to_zip_ids = fields.One2many("ir.actions.report", 'parent_id', string="Reports to zip")
+    parent_id = fields.Many2one("ir.actions.report", string="Parent report", index=True, ondelete="cascade")
 
     @api.model
-    def _render_qweb_zip(self, report_ref, res_ids, data=None):
+    def _render_zip(self, report_ref, res_ids, data=None):
         """
         Call `generate_report` method of report abstract class
         `report.<report technical name>` or of standard class for XML report
@@ -31,15 +32,7 @@ class IrActionsReport(models.Model):
         report_model = self.env.get(
             f"report.{report.report_name}", self.env["report.report_zip.abstract"]
         )
-        for report_to_zip in report.report_to_zip_ids:
-            data.update({
-                report_to_zip.report_name.split(".")[-1]: {
-                    'file_name': report_to_zip.print_report_name,
-                    'file_content': report_to_zip.report_action(res_ids, data)
-                }
-            })
-
-        return report_model.generate_report(
+        return report_model.zip_report(
             ir_report=report,  # will be used to get settings of report
             docids=res_ids,
             data=data or {},
