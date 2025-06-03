@@ -12,9 +12,9 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 try:
-    import zipfile
+    import pyzipper
 except ImportError:
-    _logger.debug("Can not import csvwriter`.")
+    raise UserError("Please install Pyzipper: pip install pyzipper")
 
 
 class ReportZIPAbstract(models.AbstractModel):
@@ -45,6 +45,11 @@ class ReportZIPAbstract(models.AbstractModel):
 
     def zip_report(self, ir_report=None, docids=None, data=None):
         files_report = data.get("files_report", {})
+        zip_params = {
+            'compression': pyzipper.ZIP_DEFLATED,
+            'allowZip64': False
+        }
+
         for report_to_zip in ir_report.report_to_zip_ids:
             files_report({
                 report_to_zip.report_name.split(".")[-1]: {
@@ -57,10 +62,23 @@ class ReportZIPAbstract(models.AbstractModel):
             objs = self._get_objs_for_report(docids, data)
             files_report = self.generate_zip_report(docids, data, objs) or {}
 
+        if files_report.get('password'):
+            password = files_report.get('password')
+            del files_report['password']
+            zip_params.update({
+                'encryption': pyzipper.WZ_AES,
+            })
+        else:
+            password = b''
+
         with tempfile.NamedTemporaryFile() as buf:
-            with zipfile.ZipFile(
-                    buf, mode="w", compression=zipfile.ZIP_DEFLATED, allowZip64=False
+            with pyzipper.AESZipFile(
+                buf,
+                mode="w",
+                **zip_params
             ) as zip_buffer:
+                if password and password.strip():
+                    zip_buffer.pwd = password
                 self._write_files_to_zip(files_report, zip_buffer)
             buf.seek(0)
             try:
@@ -74,14 +92,19 @@ class ReportZIPAbstract(models.AbstractModel):
     def _write_files_to_zip(self, files_report, zip_buffer):
         """Extracted function to handle writing files to a ZIP buffer."""
         encoding = self.env.context.get('encoding')
-        for file_group in files_report.values():
+        for file_key, file_group in files_report.items():
+            if file_key == 'password':
+                continue
             for file_name, file_metadata in file_group.items():
                 file_content = file_metadata.get('file_content')
                 if isinstance(file_content, list):
                     file_content = file_content[0]
                 if encoding:
                     file_content = file_content.encode(encoding, errors="ignore")
-                zip_buffer.writestr(file_metadata["file_name"], file_content)
+                zip_buffer.writestr(
+                    file_metadata["file_name"],
+                    file_content,
+                )
 
     def generate_zip_report(self, file, data, objs):
         raise NotImplementedError()

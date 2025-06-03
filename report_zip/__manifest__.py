@@ -22,7 +22,7 @@
     },
     "external_dependencies": {
         "python": [  # Python third party libraries required for module
-            "zipfile"  # Zip file with Python
+            "pyzipper"  # Zip file with Python
         ]
     },
 }
