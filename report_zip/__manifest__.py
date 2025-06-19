@@ -4,7 +4,7 @@
     "name": "Zipped Reports",
     "version": "18.0.1.0.0",
     "category": "Reporting",
-    "website": "https://github.com/OCA/reporting-engine",
+    "website": "https://github.com/rosenvladimirov/reporting-engine",
     "development_status": "Production/Stable",
     "author": "Rosen Vladimirov, Odoo Community Association (OCA)",
     "license": "AGPL-3",
@@ -25,4 +25,13 @@
             "pyzipper"  # Zip file with Python
         ]
     },
+    'images': [
+        'static/description/banner.png',
+    ],
+
+    'tags': ['Reporting'],
+
+    # Version requirements
+    'odoo_version': '18.0',
+    'python_version': '>=3.11',
 }

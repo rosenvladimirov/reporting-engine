@@ -50,14 +50,6 @@ class ReportZIPAbstract(models.AbstractModel):
             'allowZip64': False
         }
 
-        for report_to_zip in ir_report.report_to_zip_ids:
-            files_report({
-                report_to_zip.report_name.split(".")[-1]: {
-                    'file_name': report_to_zip.print_report_name,
-                    'file_content': report_to_zip.report_action(docids, data)
-                }
-            })
-
         if not files_report:
             objs = self._get_objs_for_report(docids, data)
             files_report = self.generate_zip_report(docids, data, objs) or {}
@@ -79,7 +71,17 @@ class ReportZIPAbstract(models.AbstractModel):
             ) as zip_buffer:
                 if password and password.strip():
                     zip_buffer.pwd = password
-                self._write_files_to_zip(files_report, zip_buffer)
+                for report_to_zip in ir_report.report_to_zip_ids:
+                    files_report = {
+                        report_to_zip.report_name.split(".")[-1]: {
+                            'file_name': report_to_zip.print_report_name,
+                            'file_content': report_to_zip.report_action(docids, data)
+                        }
+                    }
+                    self._write_files_to_zip(files_report, zip_buffer)
+
+                if not ir_report.report_to_zip_ids:
+                    self._write_files_to_zip(files_report, zip_buffer)
             buf.seek(0)
             try:
                 return buf.read(), "zip"
