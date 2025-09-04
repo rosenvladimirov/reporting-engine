@@ -5,7 +5,7 @@ from io import BytesIO
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import safe_eval
 
@@ -14,7 +14,10 @@ class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
 
     encrypt = fields.Selection(
-        [("manual", "Manual Input Password"), ("auto", "Auto Generated Password")],
+        selection=[
+            ("manual", "Manual Input Password"),
+            ("auto", "Auto Generated Password"),
+        ],
         string="Encryption",
         help="* Manual Input Password: allow user to key in password on the fly. "
         "This option available only on document print action.\n"
@@ -29,10 +32,10 @@ class IrActionsReport(models.Model):
         document, ttype = super()._render_qweb_pdf(
             report_ref, res_ids=res_ids, data=data
         )
-        report = self._get_report(report_ref)
+        report_sudo = self._get_report(report_ref)
         if res_ids:
             encrypt_password = self._context.get("encrypt_password")
-            report = self._get_report_from_name(report.report_name).with_context(
+            report = self._get_report_from_name(report_sudo.report_name).with_context(
                 encrypt_password=encrypt_password
             )
             password = report._get_pdf_password(res_ids[:1])
@@ -49,18 +52,14 @@ class IrActionsReport(models.Model):
             # Following is used just in case when context is passed in.
             encrypt_password = self._context.get("encrypt_password", False)
         elif self.encrypt == "auto" and self.encrypt_password:
-            # access the report details with sudo() but evaluation context as sudo(False)
-            self_sudo = self.sudo()
-
-            Model = self.env[self_sudo.model]
-            record_ids = Model.browse(res_ids)
+            # access the report details with sudo() but evaluation context as
+            # sudo(False)
+            records = self.env[self.sudo().model].browse(res_ids).exists()
             try:
-                encrypt_password = safe_eval(
-                    self.encrypt_password, {"object": record_ids}
-                )
+                encrypt_password = safe_eval(self.encrypt_password, {"object": records})
             except Exception as e:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Python code used for encryption password is invalid.\n%s",
                         self.encrypt_password,
                     )
