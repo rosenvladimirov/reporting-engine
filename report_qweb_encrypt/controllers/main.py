@@ -28,8 +28,9 @@ class ReportControllerEncrypt(ReportController):
                 url_decode(url.split("?")[1]).items()
             )  # decoding the args represented in JSON
             if "context" in data:
-                context, data_context = json.loads(context or "{}"), json.loads(
-                    data.pop("context")
+                context, data_context = (
+                    json.loads(context or "{}"),
+                    json.loads(data.pop("context")),
                 )
                 if "encrypt_password" in data_context:
                     encrypted_data = request.env["ir.actions.report"]._encrypt_pdf(

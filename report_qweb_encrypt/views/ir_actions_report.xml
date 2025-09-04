@@ -3,7 +3,6 @@
      Copyright 2020 Ecosoft Co., LTd.
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="ir_actions_report_form_view">
         <field name="name">ir.actions.report.form (in report_qweb_encrypt)</field>
         <field name="model">ir.actions.report</field>
@@ -28,5 +27,4 @@
             </field>
         </field>
     </record>
-
 </odoo>

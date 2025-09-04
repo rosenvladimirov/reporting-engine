@@ -17,21 +17,21 @@ Report Qweb Encrypt
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Freporting--engine-lightgray.png?logo=github
-    :target: https://github.com/OCA/reporting-engine/tree/16.0/report_qweb_encrypt
+    :target: https://github.com/OCA/reporting-engine/tree/18.0/report_qweb_encrypt
     :alt: OCA/reporting-engine
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/reporting-engine-16-0/reporting-engine-16-0-report_qweb_encrypt
+    :target: https://translation.odoo-community.org/projects/reporting-engine-18-0/reporting-engine-18-0-report_qweb_encrypt
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/reporting-engine&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/reporting-engine&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 This module allow you to encrypt PDF with a password seting option,
 
-* Manually keyin password (only applicable for record print action)
-* Auto generated password based on object data (python)
+- Manually keyin password (only applicable for record print action)
+- Auto generated password based on object data (python)
 
 **Table of contents**
 
@@ -41,7 +41,8 @@ This module allow you to encrypt PDF with a password seting option,
 Usage
 =====
 
-To make a report encryptable mark the field `Encryption` in the report record.
+To make a report encryptable mark the field Encryption in the report
+record.
 
 Bug Tracker
 ===========
@@ -49,7 +50,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/reporting-engine/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/reporting-engine/issues/new?body=module:%20report_qweb_encrypt%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/reporting-engine/issues/new?body=module:%20report_qweb_encrypt%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -57,20 +58,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Creu Blanca
 * Ecosoft
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Enric Tobella <etobella@creublanca.es>
-* Jaime Arroyo <jaime.arroyo@creublanca.es>
-* Kitti U. <kittiu@ecosoft.co.th>
+- Enric Tobella <etobella@creublanca.es>
+- Jaime Arroyo <jaime.arroyo@creublanca.es>
+- Kitti U. <kittiu@ecosoft.co.th>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -90,6 +91,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-kittiu| 
 
-This module is part of the `OCA/reporting-engine <https://github.com/OCA/reporting-engine/tree/16.0/report_qweb_encrypt>`_ project on GitHub.
+This module is part of the `OCA/reporting-engine <https://github.com/OCA/reporting-engine/tree/18.0/report_qweb_encrypt>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
