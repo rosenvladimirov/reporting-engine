@@ -1,7 +1,8 @@
 [project]
 name = "odoo-addons-oca-reporting-engine"
-version = "19.0.20251029.0"
+version = "19.0.20251031.0"
 dependencies = [
+    "odoo-addon-report_xlsx==19.0.*",
     "odoo-addon-report_xml==19.0.*",
 ]
 classifiers=[
