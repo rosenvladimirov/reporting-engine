@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[report_xlsx](report_xlsx/) | 19.0.1.0.0 |  | Base module to create xlsx report
+[report_xlsx](report_xlsx/) | 19.0.1.0.1 |  | Base module to create xlsx report
 [report_xml](report_xml/) | 19.0.1.0.0 |  | Allow to generate XML reports
 
 [//]: # (end addons)
