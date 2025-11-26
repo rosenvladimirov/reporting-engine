@@ -23,6 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [report_qweb_element_page_visibility](report_qweb_element_page_visibility/) | 19.0.1.0.0 |  | Report Qweb Element Page Visibility
 [report_xlsx](report_xlsx/) | 19.0.1.0.2 |  | Base module to create xlsx report
+[report_xlsx_helper](report_xlsx_helper/) | 19.0.1.0.0 |  | Report xlsx helpers
 [report_xml](report_xml/) | 19.0.1.0.0 |  | Allow to generate XML reports
 
 [//]: # (end addons)
