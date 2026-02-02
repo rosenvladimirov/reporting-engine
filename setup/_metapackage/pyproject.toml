@@ -1,11 +1,12 @@
 [project]
 name = "odoo-addons-oca-reporting-engine"
-version = "19.0.20251126.0"
+version = "19.0.20260202.0"
 dependencies = [
     "odoo-addon-report_qweb_element_page_visibility==19.0.*",
     "odoo-addon-report_xlsx==19.0.*",
     "odoo-addon-report_xlsx_helper==19.0.*",
     "odoo-addon-report_xml==19.0.*",
+    "odoo-addon-sql_request_abstract==19.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
