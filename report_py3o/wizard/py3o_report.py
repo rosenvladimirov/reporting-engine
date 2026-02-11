@@ -14,7 +14,7 @@ from importlib.resources import files
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZipFile
 
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools
 from odoo.exceptions import AccessError
 from odoo.tools.safe_eval import safe_eval, time
 
@@ -98,7 +98,7 @@ class Py3oReport(models.TransientModel):
         is_valid = real_path.startswith(root_path + os.path.sep)
         if not is_valid:
             logger.warning(
-                "Py3o template path is not valid. %s is not a child of root " "path %s",
+                "Py3o template path is not valid. %s is not a child of root path %s",
                 real_path,
                 root_path,
             )
@@ -171,7 +171,9 @@ class Py3oReport(models.TransientModel):
 
         if tmpl_data is None:
             # if for any reason the template is not found
-            raise TemplateNotFound(_("No template found. Aborting."), sys.exc_info())
+            raise TemplateNotFound(
+                self.env._("No template found. Aborting."), sys.exc_info()
+            )
 
         return tmpl_data
 
@@ -281,7 +283,7 @@ class Py3oReport(models.TransientModel):
         lo_bin = self.ir_actions_report_id.lo_bin_path
         if not lo_bin:
             raise RuntimeError(
-                _(
+                self.env._(
                     "Libreoffice runtime not available. "
                     "Please contact your administrator."
                 )

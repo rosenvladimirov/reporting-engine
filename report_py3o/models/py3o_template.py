@@ -7,7 +7,7 @@ class Py3oTemplate(models.Model):
     _name = "py3o.template"
     _description = "Py3o template"
 
-    name = fields.Char(required=True)
+    name = fields.Char(string="Template name", required=True)
     py3o_template_data = fields.Binary("LibreOffice Template")
     filetype = fields.Selection(
         selection=[

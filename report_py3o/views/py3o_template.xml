@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <form>
                 <group name="main">
-                    <field name="name" />
+                    <field name="name" string="Name" />
                     <field name="filetype" />
                     <field name="py3o_template_data" filename="name" />
                 </group>
@@ -35,7 +35,7 @@
         <field name="model">py3o.template</field>
         <field name="arch" type="xml">
             <list>
-                <field name="name" />
+                <field name="name" string="Name" />
                 <field name="filetype" />
             </list>
         </field>
