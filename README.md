@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [bi_sql_editor](bi_sql_editor/) | 19.0.1.0.1 | <a href='https://github.com/legalsylvain'><img src='https://github.com/legalsylvain.png' width='32' height='32' style='border-radius:50%;' alt='legalsylvain'/></a> | BI Views builder, based on Materialized or Normal SQL Views
+[report_context](report_context/) | 19.0.1.0.0 |  | Adding context to reports
 [report_csv](report_csv/) | 19.0.1.0.0 |  | Base module to create csv report
 [report_partner_address](report_partner_address/) | 19.0.1.0.0 | <a href='https://github.com/yostashiro'><img src='https://github.com/yostashiro.png' width='32' height='32' style='border-radius:50%;' alt='yostashiro'/></a> <a href='https://github.com/aungkokolin1997'><img src='https://github.com/aungkokolin1997.png' width='32' height='32' style='border-radius:50%;' alt='aungkokolin1997'/></a> | Translatable partner address details for reports and portal
 [report_qweb_element_page_visibility](report_qweb_element_page_visibility/) | 19.0.1.0.0 |  | Report Qweb Element Page Visibility
