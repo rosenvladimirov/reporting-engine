@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [report_csv](report_csv/) | 19.0.1.0.0 |  | Base module to create csv report
 [report_partner_address](report_partner_address/) | 19.0.1.0.0 | <a href='https://github.com/yostashiro'><img src='https://github.com/yostashiro.png' width='32' height='32' style='border-radius:50%;' alt='yostashiro'/></a> <a href='https://github.com/aungkokolin1997'><img src='https://github.com/aungkokolin1997.png' width='32' height='32' style='border-radius:50%;' alt='aungkokolin1997'/></a> | Translatable partner address details for reports and portal
 [report_qweb_element_page_visibility](report_qweb_element_page_visibility/) | 19.0.1.0.0 |  | Report Qweb Element Page Visibility
+[report_qweb_field_option](report_qweb_field_option/) | 19.0.1.0.0 |  | Report Qweb Field Option
 [report_qweb_parameter](report_qweb_parameter/) | 19.0.1.0.0 |  | Add new parameters for qweb templates in order to reduce field length and check minimal length
 [report_xlsx](report_xlsx/) | 19.0.1.0.2 |  | Base module to create xlsx report
 [report_xlsx_helper](report_xlsx_helper/) | 19.0.1.0.0 |  | Report xlsx helpers
