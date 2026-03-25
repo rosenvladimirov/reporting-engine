@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="partner_glabels" model="ir.actions.report">
+        <field name="name">Print Address Labels (gLabels)</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">glabels</field>
+        <field name="report_name">report_glabels.partner_glabels</field>
+        <field name="report_file">res_partner_labels</field>
+        <field name="glabels_template">Avery 5160</field>
+        <field name="glabels_copies">1</field>
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

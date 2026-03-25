@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record
+        id="ir_actions_report_view_form_glabels"
+        model="ir.ui.view"
+    >
+        <field name="name">ir.actions.report.view.form.glabels</field>
+        <field name="model">ir.actions.report</field>
+        <field name="inherit_id" ref="base.act_report_xml_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced']" position="inside">
+                <group
+                    string="gLabels Settings"
+                    invisible="report_type != 'glabels'"
+                >
+                    <field name="glabels_template" />
+                    <field name="glabels_copies" />
+                    <field name="glabels_crop_marks" />
+                    <field name="glabels_outlines" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
