@@ -24,5 +24,4 @@
         "demo/report.xml",  # register report in the system
         "demo/demo_report.xml",  # report body definition
     ],
-    "post_init_hook": "post_init_hook",
 }
