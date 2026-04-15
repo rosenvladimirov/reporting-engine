@@ -29,6 +29,7 @@ addon | version | maintainers | summary
 [report_qweb_element_page_visibility](report_qweb_element_page_visibility/) | 19.0.1.0.0 |  | Report Qweb Element Page Visibility
 [report_qweb_field_option](report_qweb_field_option/) | 19.0.1.0.0 |  | Report Qweb Field Option
 [report_qweb_parameter](report_qweb_parameter/) | 19.0.1.0.0 |  | Add new parameters for qweb templates in order to reduce field length and check minimal length
+[report_wkhtmltopdf_param](report_wkhtmltopdf_param/) | 19.0.1.0.0 |  | Add new parameters for a paper format to be used by wkhtmltopdf command as arguments.
 [report_xlsx](report_xlsx/) | 19.0.1.0.2 |  | Base module to create xlsx report
 [report_xlsx_helper](report_xlsx_helper/) | 19.0.1.0.0 |  | Report xlsx helpers
 [report_xml](report_xml/) | 19.0.1.0.0 |  | Allow to generate XML reports
