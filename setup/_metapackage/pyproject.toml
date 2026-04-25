@@ -1,7 +1,8 @@
 [project]
 name = "odoo-addons-oca-reporting-engine"
-version = "19.0.20260415.1"
+version = "19.0.20260425.0"
 dependencies = [
+    "odoo-addon-base_comment_template==19.0.*",
     "odoo-addon-bi_sql_editor==19.0.*",
     "odoo-addon-report_context==19.0.*",
     "odoo-addon-report_csv==19.0.*",
