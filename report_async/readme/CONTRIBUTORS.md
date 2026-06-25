@@ -5,3 +5,5 @@
 - Opensourceintegrators
   - Daniel Reis \<<dreis@opensourceintegrators.com>\>
   - Nikul Chaudhary \<<nchaudhary@opensourceintegrators.com>\>
+- Acsone
+  - Samir GUESMI \<<samir.guesmi@acsone.eu>\>

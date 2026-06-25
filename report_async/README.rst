@@ -1,3 +1,7 @@
+.. image:: https://odoo-community.org/readme-banner-image
+   :target: https://odoo-community.org/get-involved?utm_source=readme
+   :alt: Odoo Community Association
+
 ============
 Report Async
 ============
@@ -13,17 +17,17 @@ Report Async
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Freporting--engine-lightgray.png?logo=github
-    :target: https://github.com/OCA/reporting-engine/tree/17.0/report_async
+    :target: https://github.com/OCA/reporting-engine/tree/19.0/report_async
     :alt: OCA/reporting-engine
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/reporting-engine-17-0/reporting-engine-17-0-report_async
+    :target: https://translation.odoo-community.org/projects/reporting-engine-19-0/reporting-engine-19-0-report_async
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/reporting-engine&target_branch=17.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/reporting-engine&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -40,12 +44,12 @@ by email as soon as it is ready.
 
 Notes:
 
--  Only user with Technical Feature rights can manage the report.
--  Every internal user will have right to execute the report allowed for
-   his/her groups.
--  The files created are owned and viewable only by the person who run
-   the report.
--  Job queue manager can also see all jobs for each reports.
+- Only user with Technical Feature rights can manage the report.
+- Every internal user will have right to execute the report allowed for
+  his/her groups.
+- The files created are owned and viewable only by the person who run
+  the report.
+- Job queue manager can also see all jobs for each reports.
 
 **Table of contents**
 
@@ -59,28 +63,28 @@ Menu: Dashboard > Report Center
 
 As Technical Feature users, you can manage reports for Report Center.
 
--  **Report:** choose the report (a window action). Although the option
-   show all window actions it only make sense for window actions that
-   launch reports.
--  **Allow Async:** check this, if you want the report to run in
-   background too, suitable for report that return file as result, i.e.,
-   pdf/xlsx/csv/txt.
--  **Email Notification:** if checked, once the background process is
-   completed, email with link to download report will be sent.
--  **Groups:** select user groups allowed to use this report. If left
-   blank, all user can use.
+- **Report:** choose the report (a window action). Although the option
+  show all window actions it only make sense for window actions that
+  launch reports.
+- **Allow Async:** check this, if you want the report to run in
+  background too, suitable for report that return file as result, i.e.,
+  pdf/xlsx/csv/txt.
+- **Email Notification:** if checked, once the background process is
+  completed, email with link to download report will be sent.
+- **Groups:** select user groups allowed to use this report. If left
+  blank, all user can use.
 
 As normal user, you can run your reports from Report Center
 
--  **Run Now button:** to run report immediately as per normal.
--  **Run Background button:** to run report asynchronously. Fall back to
-   run now, if not report that produce file.
--  **Job Status:** show status of the latest run job. If job fail,
-   exception error will also shown
--  **Files:** show all files being produced by the job as run by the
-   user.
--  **Jobs:** show all jobs triggered by this report as run by the user.
-   Only job queue manager have access to this button.
+- **Run Now button:** to run report immediately as per normal.
+- **Run Background button:** to run report asynchronously. Fall back to
+  run now, if not report that produce file.
+- **Job Status:** show status of the latest run job. If job fail,
+  exception error will also shown
+- **Files:** show all files being produced by the job as run by the
+  user.
+- **Jobs:** show all jobs triggered by this report as run by the user.
+  Only job queue manager have access to this button.
 
 Bug Tracker
 ===========
@@ -88,7 +92,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/reporting-engine/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/reporting-engine/issues/new?body=module:%20report_async%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/reporting-engine/issues/new?body=module:%20report_async%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -103,16 +107,20 @@ Authors
 Contributors
 ------------
 
--  `Ecosoft <http://ecosoft.co.th>`__:
+- `Ecosoft <http://ecosoft.co.th>`__:
 
-   -  Kitti U. <kittiu@ecosoft.co.th>
-   -  Saran Lim. <saranl@ecosoft.co.th>
-   -  Tharathip Chaweewongphan <tharathipc@ecosoft.co.th>
+  - Kitti U. <kittiu@ecosoft.co.th>
+  - Saran Lim. <saranl@ecosoft.co.th>
+  - Tharathip Chaweewongphan <tharathipc@ecosoft.co.th>
 
--  Opensourceintegrators
+- Opensourceintegrators
 
-   -  Daniel Reis <dreis@opensourceintegrators.com>
-   -  Nikul Chaudhary <nchaudhary@opensourceintegrators.com>
+  - Daniel Reis <dreis@opensourceintegrators.com>
+  - Nikul Chaudhary <nchaudhary@opensourceintegrators.com>
+
+- Acsone
+
+  - Samir GUESMI <samir.guesmi@acsone.eu>
 
 Maintainers
 -----------
@@ -135,6 +143,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-kittiu| 
 
-This module is part of the `OCA/reporting-engine <https://github.com/OCA/reporting-engine/tree/17.0/report_async>`_ project on GitHub.
+This module is part of the `OCA/reporting-engine <https://github.com/OCA/reporting-engine/tree/19.0/report_async>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

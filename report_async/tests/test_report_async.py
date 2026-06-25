@@ -1,16 +1,24 @@
 # Copyright 2019 Ecosoft Co., Ltd (http://ecosoft.co.th/)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html)
 from odoo.exceptions import UserError
-from odoo.tests import common
-from odoo.tests.common import Form
+from odoo.tests import tagged
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestJobChannel(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.print_doc = self.env.ref("report_async.report_async_print_document")
-        self.test_rec = self.env.ref("base.module_mail")
-        self.test_rpt = self.env.ref("base.ir_module_reference_print")
+@tagged("post_install", "-at_install")
+class TestJobChannel(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.print_doc = cls.env["report.async"].create(
+            {
+                "action_id": cls.env.ref("report_async.action_print_report_wizard").id,
+                "allow_async": False,
+            }
+        )
+        cls.test_rec = cls.env.ref("base.module_mail")
+        cls.test_rpt = cls.env.ref("base.ir_module_reference_print")
 
     def _print_wizard(self, res):
         obj = self.env[res["res_model"]]
@@ -49,9 +57,9 @@ class TestJobChannel(common.TransactionCase):
         report_id = self.test_rpt.id
         user_id = self.env.user.id
         self.print_doc.run_report(docids, data, report_id, user_id)
-        # Check name of the newly producted file
+        # Check name of the newly produced file
         # Note: on env with test-enable, always fall back to render_qweb_html
         self.assertIn(self.test_rpt.name, self.print_doc.file_ids[0].name)
-        # View fileds/jobs
+        # View files/jobs
         self.print_doc.view_files()
         self.print_doc.view_jobs()

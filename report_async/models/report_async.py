@@ -3,7 +3,8 @@
 
 import base64
 
-from odoo import SUPERUSER_ID, _, api, fields, models
+from odoo import api, fields, models
+from odoo.api import SUPERUSER_ID
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -13,7 +14,7 @@ REPORT_TYPES_FUNC = {
     "qweb-text": "_render_qweb_text",
     "qweb-xml": "_render_qweb_xml",
     "csv": "_render_csv",
-    "excel": "render_excel",
+    "excel": "_render_excel",
     "xlsx": "_render_xlsx",
 }
 
@@ -79,8 +80,8 @@ class ReportAsync(models.Model):
                 .env["queue.job"]
                 .search(
                     [
-                        ("func_string", "like", "report.async(%s,)" % rec.id),
-                        ("user_id", "=", self._uid),
+                        ("func_string", "like", f"report.async({rec.id},)"),
+                        ("user_id", "=", self.env.uid),
                     ],
                     order="id desc",
                 )
@@ -93,7 +94,7 @@ class ReportAsync(models.Model):
             [
                 ("res_model", "=", "report.async"),
                 ("res_id", "in", self.ids),
-                ("create_uid", "=", self._uid),
+                ("create_uid", "=", self.env.uid),
             ],
             order="id desc",
         )
@@ -111,7 +112,7 @@ class ReportAsync(models.Model):
     def run_async(self):
         self.ensure_one()
         if not self.allow_async:
-            raise UserError(_("Background process not allowed."))
+            raise UserError(self.env._("Background process not allowed."))
         result = self.env[self.action_id.type]._for_xml_id(self.action_id.xml_id)
         ctx = safe_eval(result.get("context", {}))
         ctx.update({"async_process": True})
@@ -157,11 +158,11 @@ class ReportAsync(models.Model):
                 }
             )
         )
-        self._cr.execute(
+        self.env.cr.execute(
             """
             UPDATE ir_attachment SET create_uid = %s, write_uid = %s
             WHERE id = %s""",
-            (self._uid, self._uid, attachment.id),
+            (self.env.uid, self.env.uid, attachment.id),
         )
         # Send email
         if self.email_notify:
