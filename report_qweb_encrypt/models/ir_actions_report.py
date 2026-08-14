@@ -3,10 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from io import BytesIO
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
-
 from odoo import fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.pdf import PdfReader, PdfWriter
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -34,7 +33,7 @@ class IrActionsReport(models.Model):
         )
         report_sudo = self._get_report(report_ref)
         if res_ids:
-            encrypt_password = self._context.get("encrypt_password")
+            encrypt_password = self.env.context.get("encrypt_password")
             report = self._get_report_from_name(report_sudo.report_name).with_context(
                 encrypt_password=encrypt_password
             )
@@ -50,7 +49,7 @@ class IrActionsReport(models.Model):
             # As such, file will be encrypted by report_download() again.
             # --
             # Following is used just in case when context is passed in.
-            encrypt_password = self._context.get("encrypt_password", False)
+            encrypt_password = self.env.context.get("encrypt_password", False)
         elif self.encrypt == "auto" and self.encrypt_password:
             # access the report details with sudo() but evaluation context as
             # sudo(False)
@@ -70,9 +69,9 @@ class IrActionsReport(models.Model):
     def _encrypt_pdf(data, password):
         if not password:
             return data
-        output_pdf = PdfFileWriter()
+        output_pdf = PdfWriter()
         in_buff = BytesIO(data)
-        pdf = PdfFileReader(in_buff)
+        pdf = PdfReader(in_buff)
         output_pdf.appendPagesFromReader(pdf)
         output_pdf.encrypt(password)
         buff = BytesIO()
