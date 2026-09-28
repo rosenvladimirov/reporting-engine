@@ -11,13 +11,9 @@ from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_date, format_datetime, formatLang
 
-_logger = logging.getLogger(__name__)
+from ..glabels_loader import load_glabels
 
-try:
-    import glabels
-except ImportError:
-    _logger.debug("Cannot import glabels (gLabels-qt Python bindings).")
-    glabels = None
+_logger = logging.getLogger(__name__)
 
 # Сливането на gLabels: CSV със запетаи и имената на колоните на първия ред.
 # Това е РОДНИЯТ път на gLabels за `${поле}` в шаблона.
@@ -58,6 +54,15 @@ class ReportGLabelsAbstract(models.AbstractModel):
         else:
             ids = self.env.context.get("active_ids", [])
         return self.env[self.env.context.get("active_model")].browse(ids)
+
+    def _glabels_lib(self):
+        """Библиотеката glabels — внася се чак тук, при печат."""
+        path = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("report_glabels.library_path")
+        )
+        return load_glabels(path)
 
     def _glabels_report(self):
         """Печатната форма, която се рендерира в момента."""
@@ -196,6 +201,7 @@ class ReportGLabelsAbstract(models.AbstractModel):
 
     def _glabels_open_label(self, report, workdir):
         """Шаблонът от формата — качен файл или (резервно) име/път."""
+        glabels = self._glabels_lib()
         if report.glabels_template_file:
             path = os.path.join(workdir, "template.glabels")
             with open(path, "wb") as fh:
@@ -225,7 +231,7 @@ class ReportGLabelsAbstract(models.AbstractModel):
         Returns:
             tuple: (pdf_bytes, "glabels")
         """
-        if glabels is None:
+        if self._glabels_lib() is None:
             raise UserError(
                 _(
                     "The gLabels library is not installed on this server, so "

@@ -1,16 +1,7 @@
 # Copyright 2025 Rosen
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-import logging
-
 from odoo import models
-
-_logger = logging.getLogger(__name__)
-
-try:
-    import glabels
-except ImportError:
-    glabels = None
 
 
 class PartnerGLabels(models.AbstractModel):
@@ -29,6 +20,7 @@ class PartnerGLabels(models.AbstractModel):
         return ["name", "street", "city", "zip", "country_id.name"]
 
     def _glabels_build_layout(self, label):
+        glabels = self._glabels_lib()
         frame = label.frame
         fw = frame.w().to_mm()
         fh = frame.h().to_mm()

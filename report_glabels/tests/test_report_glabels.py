@@ -10,12 +10,15 @@ from odoo.tests import TransactionCase, tagged
 from odoo.tools.misc import file_open
 
 from ..models.ir_report import parse_glabels_columns
-from ..report import report_abstract_glabels
+from ..glabels_loader import load_glabels
 
 try:
     from odoo.tools.pdf import PdfReader
 except ImportError:  # pragma: no cover
     PdfReader = None
+
+
+GLABELS = load_glabels()
 
 
 def _pdf_text(page):
@@ -105,7 +108,7 @@ class TestReportGLabels(TransactionCase):
 
     def test_form_without_own_model_uses_engine(self):
         self.assertIsNone(self.env.get("report.report_glabels.test_form_without_model"))
-        if report_abstract_glabels.glabels is None:
+        if GLABELS is None:
             with self.assertRaisesRegex(UserError, "not installed"):
                 self.env["ir.actions.report"]._render_glabels(
                     self.report.report_name, self.partner.ids, {}
@@ -113,7 +116,7 @@ class TestReportGLabels(TransactionCase):
 
     # --- рендерирането (само където библиотеката е инсталирана) --------
 
-    @unittest.skipIf(report_abstract_glabels.glabels is None, "gLabels not installed")
+    @unittest.skipIf(GLABELS is None, "gLabels not installed")
     def test_render_fills_the_merge_fields(self):
         pdf, report_type = self.env["ir.actions.report"]._render_glabels(
             self.report.report_name, self.partner.ids, {}
@@ -129,7 +132,7 @@ class TestReportGLabels(TransactionCase):
         self.assertIn("Примерен партньор", text)
         self.assertIn("34111", text)
 
-    @unittest.skipIf(report_abstract_glabels.glabels is None, "gLabels not installed")
+    @unittest.skipIf(GLABELS is None, "gLabels not installed")
     def test_render_one_label_per_record_and_copy(self):
         other = self.partner.copy({"name": "Втори партньор", "ref": "777"})
         self.report.glabels_copies = 2
@@ -143,7 +146,7 @@ class TestReportGLabels(TransactionCase):
         text = " ".join(_pdf_text(page) for page in reader.pages)
         self.assertEqual(text.count("Втори партньор"), 2)
 
-    @unittest.skipIf(report_abstract_glabels.glabels is None, "gLabels not installed")
+    @unittest.skipIf(GLABELS is None, "gLabels not installed")
     def test_render_unknown_column_raises(self):
         self.report.glabels_csv_file = base64.b64encode(b"name,no_such_field\n")
         with self.assertRaisesRegex(UserError, "no_such_field"):
