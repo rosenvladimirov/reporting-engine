@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Glabels-document version="4.0">
+  <Template brand="Test" description="Test label 70x38" height="107.717pt" part="1" size="" width="198.425pt">
+    <Label-rectangle height="107.717pt" id="0" round="0pt" width="198.425pt" x_waste="0pt" y_waste="0pt">
+      <Markup-margin size="4.25197pt" />
+      <Layout dx="198.425pt" dy="107.717pt" nx="1" ny="1" x0="0pt" y0="0pt" />
+    </Label-rectangle>
+  </Template>
+  <Objects id="0" rotate="false">
+    <Object-text a0="1" a1="0" a2="0" a3="1" a4="0" a5="0" align="left" auto_shrink="false" color="0xff" font_family="DejaVu Sans" font_italic="false" font_size="8" font_underline="false" font_weight="bold" h="17pt" line_spacing="1" lock_aspect_ratio="false" shadow="false" shadow_color="0xff" shadow_opacity="0.5" shadow_x="1.3pt" shadow_y="1.3pt" valign="top" w="180pt" wrap="none" x="8.5pt" y="5.7pt">
+      <p>${name}</p>
+    </Object-text>
+    <Object-text a0="1" a1="0" a2="0" a3="1" a4="0" a5="0" align="left" auto_shrink="false" color="0xff" font_family="DejaVu Sans" font_italic="false" font_size="7" font_underline="false" font_weight="normal" h="12pt" line_spacing="1" lock_aspect_ratio="false" shadow="false" shadow_color="0xff" shadow_opacity="0.5" shadow_x="1.3pt" shadow_y="1.3pt" valign="top" w="180pt" wrap="none" x="8.5pt" y="38pt">
+      <p>код: ${ref}</p>
+    </Object-text>
+  </Objects>
+</Glabels-document>

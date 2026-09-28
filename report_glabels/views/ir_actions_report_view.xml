@@ -8,15 +8,40 @@
         <field name="model">ir.actions.report</field>
         <field name="inherit_id" ref="base.act_report_xml_view" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='advanced']" position="inside">
+            <!-- Шаблонът и CSV-то са над бележника: без тях формата не
+                 печата нищо, а „Advanced“ човек не отваря -->
+            <xpath expr="//sheet/notebook" position="before">
                 <group
-                    string="gLabels Settings"
+                    string="gLabels"
+                    name="glabels"
                     invisible="report_type != 'glabels'"
                 >
-                    <field name="glabels_template" />
-                    <field name="glabels_copies" />
-                    <field name="glabels_crop_marks" />
-                    <field name="glabels_outlines" />
+                    <group>
+                        <field
+                            name="glabels_template_file"
+                            filename="glabels_template_filename"
+                        />
+                        <field name="glabels_template_filename" invisible="1" />
+                        <field
+                            name="glabels_csv_file"
+                            filename="glabels_csv_filename"
+                        />
+                        <field name="glabels_csv_filename" invisible="1" />
+                        <field
+                            name="glabels_template"
+                            invisible="glabels_template_file"
+                        />
+                    </group>
+                    <group>
+                        <field name="glabels_copies" />
+                        <field name="glabels_crop_marks" />
+                        <field name="glabels_outlines" />
+                    </group>
+                    <field
+                        name="glabels_columns"
+                        colspan="2"
+                        invisible="not glabels_csv_file"
+                    />
                 </group>
             </xpath>
         </field>

@@ -1,0 +1,209 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_glabels
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 08:28+0000\n"
+"PO-Revision-Date: 2026-09-28 08:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_glabels
+#: model:ir.model,name:report_glabels.model_report_report_glabels_abstract
+msgid "Abstract gLabels Report"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_csv_file
+msgid "CSV Data File"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_csv_filename
+msgid "CSV Data File Name"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_columns
+msgid "Columns"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__glabels_columns
+msgid "Columns read from the first line of the CSV data file."
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_copies
+msgid "Copies per record"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_crop_marks
+msgid "Crop marks"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__display_name
+#: model:ir.model.fields,field_description:report_glabels.field_report_report_glabels_abstract__display_name
+#: model:ir.model.fields,field_description:report_glabels.field_report_report_glabels_partner_glabels__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__id
+#: model:ir.model.fields,field_description:report_glabels.field_report_report_glabels_abstract__id
+#: model:ir.model.fields,field_description:report_glabels.field_report_report_glabels_partner_glabels__id
+msgid "ID"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_outlines
+msgid "Label outlines"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__glabels_copies
+msgid "Number of label copies per record."
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model,name:report_glabels.model_report_report_glabels_partner_glabels
+msgid "Partner gLabels Address Labels"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model,name:report_glabels.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__report_type
+msgid "Report Type"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__glabels_template_file
+msgid ""
+"The .glabels file as saved by gLabels. The label layout, fonts and embedded "
+"images all come from it."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/models/ir_report.py:0
+msgid "The CSV data file cannot be read as UTF-8 CSV: %s"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__glabels_csv_file
+msgid ""
+"The CSV file the label was designed with. Its first line lists the columns, "
+"i.e. the ${fields} used in the template. Each column is filled from the "
+"printed record: a field path such as default_code or categ_id.name, a magic "
+"value (creator, company, date_now, currency) or a column provided by another"
+" module. The other lines are ignored."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/models/ir_report.py:0
+msgid "The first line of the CSV data file lists no columns."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid ""
+"The gLabels library is not installed on this server, so labels cannot be "
+"rendered."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid ""
+"The label cannot be printed: these columns of the CSV data file are neither "
+"fields of %(model)s nor known values: %(columns)s"
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid "The report %s has no CSV data file listing the label columns."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid "The report %s has no gLabels template file."
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__report_type
+msgid ""
+"The type of the report that will be rendered, each one having its own "
+"rendering method. HTML means the report will be opened directly in your "
+"browser PDF means the report will be rendered using Wkhtmltopdf and "
+"downloaded by the user."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid "There is nothing to print."
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,help:report_glabels.field_ir_actions_report__glabels_template
+msgid ""
+"Used only when no template file is uploaded: a template name from the "
+"gLabels database (e.g. 'Avery 5160') or a path to a .glabels file on the "
+"server."
+msgstr ""
+
+#. module: report_glabels
+#: model_terms:ir.ui.view,arch_db:report_glabels.ir_actions_report_view_form_glabels
+msgid "gLabels"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields.selection,name:report_glabels.selection__ir_actions_report__report_type__glabels
+msgid "gLabels (PDF labels)"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_template
+msgid "gLabels Template"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_template_file
+msgid "gLabels Template File"
+msgstr ""
+
+#. module: report_glabels
+#: model:ir.model.fields,field_description:report_glabels.field_ir_actions_report__glabels_template_filename
+msgid "gLabels Template File Name"
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/models/ir_report.py:0
+msgid ""
+"gLabels cannot use a field name containing ':' or '}'. Rename these columns:"
+" %s"
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
+#: code:addons/report_glabels/report/report_abstract_glabels.py:0
+msgid "gLabels produced an empty PDF."
+msgstr ""

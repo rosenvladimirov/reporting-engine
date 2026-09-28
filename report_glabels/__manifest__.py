@@ -6,10 +6,12 @@
     "author": "Rosen, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/reporting-engine",
     "category": "Reporting",
-    "version": "19.0.1.0.0",
+    "version": "19.0.2.0.0",
     "development_status": "Alpha",
     "license": "AGPL-3",
-    "external_dependencies": {"python": ["glabels"]},
+    # 🔑 `glabels` НЕ е в external_dependencies: иначе модулът не се
+    # инсталира там, където библиотеката липсва, и формите не могат да се
+    # въведат предварително. Липсата се казва при печат (ADR report-glabels/0001).
     "depends": ["base", "web"],
     "data": [
         "views/ir_actions_report_view.xml",
