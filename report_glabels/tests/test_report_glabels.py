@@ -18,6 +18,11 @@ except ImportError:  # pragma: no cover
     PdfReader = None
 
 
+def _pdf_text(page):
+    # pypdf връща интервалите от PDF-а на Qt като табулации
+    return " ".join(page.extract_text().split())
+
+
 def _data(name):
     with file_open(f"report_glabels/tests/data/{name}", "rb") as fh:
         return fh.read()
@@ -119,7 +124,7 @@ class TestReportGLabels(TransactionCase):
             return
         reader = PdfReader(io.BytesIO(pdf))
         self.assertEqual(len(reader.pages), 1)
-        text = reader.pages[0].extract_text()
+        text = _pdf_text(reader.pages[0])
         # 🚨 Празни `${полета}` рендерират „успешно“ — затова се мери ТЕКСТЪТ
         self.assertIn("Примерен партньор", text)
         self.assertIn("34111", text)
@@ -135,7 +140,7 @@ class TestReportGLabels(TransactionCase):
             return
         reader = PdfReader(io.BytesIO(pdf))
         self.assertEqual(len(reader.pages), 4)
-        text = "".join(page.extract_text() for page in reader.pages)
+        text = " ".join(_pdf_text(page) for page in reader.pages)
         self.assertEqual(text.count("Втори партньор"), 2)
 
     @unittest.skipIf(report_abstract_glabels.glabels is None, "gLabels not installed")
