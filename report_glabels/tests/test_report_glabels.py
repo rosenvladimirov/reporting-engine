@@ -6,7 +6,10 @@ import io
 import unittest
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import TransactionCase, tagged
+import json
+from urllib.parse import urlencode
+
+from odoo.tests import HttpCase, TransactionCase, tagged
 from odoo.tools.misc import file_open
 
 from ..models.ir_report import parse_glabels_columns
@@ -79,6 +82,23 @@ class TestReportGLabels(TransactionCase):
 
     # --- стойностите ---------------------------------------------------
 
+    def test_action_read_with_bin_size_like_the_web_client(self):
+        """Уеб клиентът зарежда действието с bin_size=True (/web/action/load).
+
+        МУТАЦИЯ: `self.glabels_csv_file` вместо `with_context(bin_size=False)`
+        в `_glabels_get_columns` ⇒ Binary връща „N bytes“ и base64 пада с
+        Incorrect padding — точно грешката на Ина от 28.09.2026.
+        """
+        action = (
+            self.env["ir.actions.report"]
+            .with_context(bin_size=True)
+            .sudo()
+            .browse(self.report.id)
+        )
+        action.invalidate_recordset()
+        values = action.read()[0]
+        self.assertEqual(values["glabels_columns"], "name\nref")
+
     def test_field_path_values(self):
         value = self.engine._glabels_value
         self.assertEqual(value(self.partner, "name"), "Примерен партньор")
@@ -147,9 +167,76 @@ class TestReportGLabels(TransactionCase):
         self.assertEqual(text.count("Втори партньор"), 2)
 
     @unittest.skipIf(GLABELS is None, "gLabels not installed")
+    def test_render_with_bin_size_context(self):
+        """МУТАЦИЯ: шаблонът прочетен без `bin_size=False` ⇒ Incorrect padding."""
+        self.report.invalidate_recordset()
+        pdf, _type = (
+            self.env["ir.actions.report"]
+            .with_context(bin_size=True)
+            ._render_glabels(self.report.report_name, self.partner.ids, {})
+        )
+        self.assertTrue(pdf.startswith(b"%PDF"))
+
+    @unittest.skipIf(GLABELS is None, "gLabels not installed")
     def test_render_unknown_column_raises(self):
         self.report.glabels_csv_file = base64.b64encode(b"name,no_such_field\n")
         with self.assertRaisesRegex(UserError, "no_such_field"):
             self.env["ir.actions.report"]._render_glabels(
                 self.report.report_name, self.partner.ids, {}
             )
+
+
+@tagged("post_install", "-at_install")
+class TestReportGLabelsHttp(HttpCase):
+    """Пътят, по който кликва човек: зареждане на действието и изтегляне.
+
+    Тестовете по-горе викат двигателя направо и затова НЕ хванаха грешката
+    при бутона Print — тя е в `/web/action/load`, преди двигателя.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create(
+            {"name": "Примерен партньор", "ref": "34111"}
+        )
+        cls.report = cls.env["ir.actions.report"].create(
+            {
+                "name": "Partner test label",
+                "model": "res.partner",
+                "report_type": "glabels",
+                "report_name": "report_glabels.test_http_label",
+                "glabels_template_file": base64.b64encode(
+                    _data("partner_name.glabels")
+                ),
+                "glabels_csv_file": base64.b64encode(_data("partner_name.csv")),
+            }
+        )
+
+    def test_web_action_load(self):
+        self.authenticate("admin", "admin")
+        action = self.make_jsonrpc_request(
+            "/web/action/load",
+            {"action_id": self.report.id, "context": {"bin_size": True}},
+        )
+        # /web/action/load чете ВСИЧКИ полета (и изчислява glabels_columns),
+        # а връща само позволените — грешката беше при четенето
+        self.assertEqual(action["report_type"], "glabels")
+        self.assertEqual(action["report_name"], self.report.report_name)
+
+    @unittest.skipIf(GLABELS is None, "gLabels not installed")
+    def test_report_download(self):
+        self.authenticate("admin", "admin")
+        url = f"/report/glabels/{self.report.report_name}/{self.partner.id}"
+        # GET: така го вика и изтеглянето в браузъра, без CSRF токен
+        response = self.url_open(
+            "/report/download?"
+            + urlencode(
+                {
+                    "data": json.dumps([url, "glabels"]),
+                    "context": json.dumps({"bin_size": True}),
+                }
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.content.startswith(b"%PDF"), response.content[:300])

@@ -202,10 +202,12 @@ class ReportGLabelsAbstract(models.AbstractModel):
     def _glabels_open_label(self, report, workdir):
         """Шаблонът от формата — качен файл или (резервно) име/път."""
         glabels = self._glabels_lib()
-        if report.glabels_template_file:
+        # съдържанието, не размера — виж _glabels_get_columns
+        template_file = report.with_context(bin_size=False).glabels_template_file
+        if template_file:
             path = os.path.join(workdir, "template.glabels")
             with open(path, "wb") as fh:
-                fh.write(base64.b64decode(report.glabels_template_file))
+                fh.write(base64.b64decode(template_file))
             return glabels.Label.open(path)
         name = report.glabels_template
         if not name:

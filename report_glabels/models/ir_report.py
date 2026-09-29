@@ -95,9 +95,13 @@ class ReportAction(models.Model):
 
     def _glabels_get_columns(self):
         self.ensure_one()
-        if not self.glabels_csv_file:
+        # 🚨 Уеб клиентът чете действията с bin_size=True: тогава Binary полето
+        # връща РАЗМЕРА като текст („225 bytes“), не съдържанието, и base64
+        # пада — печатът от бутона Print гърмеше още при зареждането на формата
+        csv_file = self.with_context(bin_size=False).glabels_csv_file
+        if not csv_file:
             return []
-        return parse_glabels_columns(base64.b64decode(self.glabels_csv_file))
+        return parse_glabels_columns(base64.b64decode(csv_file))
 
     @api.constrains("glabels_csv_file")
     def _check_glabels_csv_file(self):
