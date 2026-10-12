@@ -142,6 +142,12 @@ msgstr ""
 
 #. module: report_glabels
 #. odoo-python
+#: code:addons/report_glabels/models/ir_report.py:0
+msgid "The report %s is not a gLabels report."
+msgstr ""
+
+#. module: report_glabels
+#. odoo-python
 #: code:addons/report_glabels/report/report_abstract_glabels.py:0
 msgid "The report %s has no gLabels template file."
 msgstr ""

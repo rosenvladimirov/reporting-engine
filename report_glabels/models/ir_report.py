@@ -7,7 +7,7 @@ import io
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -129,6 +129,48 @@ class ReportAction(models.Model):
                         ", ".join(bad),
                     )
                 )
+
+    def glabels_preview_values(self, res_ids, columns=None):
+        """Стойностите на колоните така, както ги попълва печатът.
+
+        За прегледа в gLabels: редакторът там показва записите с цените от
+        ценовата листа на формата, опаковките и магическите стойности —
+        всичко минава през `_glabels_value` на същия двигател, който печата,
+        затова на екрана е точно това, което ще излезе на етикета.
+
+        Етикетът тук се проектира, затова непознатата колона НЕ е грешка
+        (при печат е): клетката е празна, а колоната се връща в `unknown`.
+
+        :param res_ids: записи на модела на формата (чужди и изтрити се пропускат)
+        :param columns: колоните; по подразбиране — първият ред на CSV-то
+        :return: {"rows": [{"id": id, колона: текст, ...}], "unknown": [колони]}
+        """
+        self.ensure_one()
+        if self.report_type != "glabels":
+            raise UserError(_("The report %s is not a gLabels report.", self.name))
+        columns = list(columns) if columns else self._glabels_get_columns()
+        # Същият двигател като при печат, и със собствения модел на формата
+        engine = self.env.get(f"report.{self.report_name}")
+        if engine is None:
+            engine = self.env["report.report_glabels.abstract"]
+        engine = engine.with_context(
+            active_model=self.model, glabels_report_id=self.id
+        )
+        engine = engine.with_context(
+            glabels_magic_values=engine._glabels_magic_values()
+        )
+        rows = []
+        unknown = set()
+        for record in self.env[self.model].browse(res_ids).exists():
+            row = {"id": record.id}
+            for column in columns:
+                value = engine._glabels_value(record, column)
+                if value is None:
+                    unknown.add(column)
+                    value = ""
+                row[column] = value
+            rows.append(row)
+        return {"rows": rows, "unknown": sorted(unknown)}
 
     @api.model
     def _render_glabels(self, report_ref, docids, data):

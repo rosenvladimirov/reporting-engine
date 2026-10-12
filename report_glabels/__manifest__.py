@@ -6,7 +6,7 @@
     "author": "Rosen, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/reporting-engine",
     "category": "Reporting",
-    "version": "19.0.2.1.1",
+    "version": "19.0.2.2.0",
     "development_status": "Alpha",
     "license": "AGPL-3",
     # 🔑 `glabels` НЕ е в external_dependencies: иначе модулът не се

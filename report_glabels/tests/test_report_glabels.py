@@ -7,6 +7,7 @@ import unittest
 
 from odoo.exceptions import UserError, ValidationError
 import json
+from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
 from odoo.tests import HttpCase, TransactionCase, tagged
@@ -126,6 +127,43 @@ class TestReportGLabels(TransactionCase):
         rows = self.engine._glabels_rows(self.partner, ["ref", "name"])
         self.assertEqual(rows, [{"ref": "34111", "name": "Примерен партньор"}])
 
+    # --- прегледът в gLabels ---------------------------------------------
+
+    def test_preview_values_are_the_printed_values(self):
+        """Прегледът дава същото като редовете за печат, по колоните на CSV-то."""
+        preview = self.report.glabels_preview_values(self.partner.ids)
+        printed = self.engine.with_context(
+            glabels_report_id=self.report.id
+        )._glabels_rows(self.partner, ["name", "ref"])
+        self.assertEqual(preview["unknown"], [])
+        self.assertEqual(preview["rows"], [dict(printed[0], id=self.partner.id)])
+
+    def test_preview_unknown_column_is_reported_not_raised(self):
+        """Етикетът се проектира: непозната колона е празна клетка + `unknown`."""
+        preview = self.report.glabels_preview_values(
+            self.partner.ids, ["ref", "no_such_field", "country_id.code"]
+        )
+        self.assertEqual(preview["unknown"], ["no_such_field"])
+        self.assertEqual(
+            preview["rows"],
+            [{"id": self.partner.id, "ref": "34111", "no_such_field": "",
+              "country_id.code": "BG"}],
+        )
+
+    def test_preview_skips_missing_records(self):
+        gone = self.env["res.partner"].create({"name": "x"})
+        gone_id = gone.id
+        gone.unlink()
+        preview = self.report.glabels_preview_values([gone_id, self.partner.id])
+        self.assertEqual([row["id"] for row in preview["rows"]], [self.partner.id])
+
+    def test_preview_only_for_glabels_reports(self):
+        other = self.env["ir.actions.report"].search(
+            [("report_type", "=", "qweb-pdf")], limit=1
+        )
+        with self.assertRaisesRegex(UserError, "not a gLabels report"):
+            other.glabels_preview_values(self.partner.ids)
+
     def test_form_without_own_model_uses_engine(self):
         self.assertIsNone(self.env.get("report.report_glabels.test_form_without_model"))
         if GLABELS is None:
@@ -211,6 +249,34 @@ class TestReportGLabelsHttp(HttpCase):
                 ),
                 "glabels_csv_file": base64.b64encode(_data("partner_name.csv")),
             }
+        )
+
+    def test_preview_over_json2(self):
+        """По пътя на gLabels: JSON-2 с API ключ, методът е публичен.
+
+        МУТАЦИЯ: преименувай метода на `_glabels_preview_values` — частният
+        метод не се вика по RPC и тестът пада.
+        """
+        admin = self.env.ref("base.user_admin")
+        key = self.env["res.users.apikeys"].with_user(admin)._generate(
+            scope="rpc", name="glabels test",
+            expiration_date=datetime.now() + timedelta(days=1),
+        )
+        response = self.url_open(
+            "/json/2/ir.actions.report/glabels_preview_values",
+            data=json.dumps({"ids": self.report.ids, "res_ids": self.partner.ids}),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"bearer {key}",
+                "X-Odoo-Database": self.env.cr.dbname,
+            },
+        )
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(
+            response.json(),
+            {"rows": [{"id": self.partner.id, "name": "Примерен партньор",
+                       "ref": "34111"}],
+             "unknown": []},
         )
 
     def test_web_action_load(self):
